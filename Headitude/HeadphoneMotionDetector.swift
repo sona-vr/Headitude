@@ -14,6 +14,7 @@ class HeadphoneMotionDetector: NSObject, ObservableObject, CMHeadphoneMotionMana
     @Published var data: CMDeviceMotion = .init()
     @Published var correctedQuaternion: CMQuaternion = .init()
     @Published var userAcceleration: CMAcceleration = .init()
+    @Published var rotationRate: CMRotationRate = .init();
     @Published var connected: Bool = false
 
     private let headphoneMotionManager = CMHeadphoneMotionManager()
@@ -49,6 +50,7 @@ class HeadphoneMotionDetector: NSObject, ObservableObject, CMHeadphoneMotionMana
                         self.data = motionData
                         self.calibration.update(data: motionData)
                         self.userAcceleration = motionData.userAcceleration;
+                        self.rotationRate = motionData.rotationRate;
                         self.correctedQuaternion = self.calibration.apply(to: motionData.attitude.quaternion)
                         self.onUpdate()
                     }

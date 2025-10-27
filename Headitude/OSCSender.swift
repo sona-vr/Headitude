@@ -20,6 +20,7 @@ class OSCSender: ObservableObject {
 
     private var quaternion: CMQuaternion = .init()
     private var acceleration: CMAcceleration = .init();
+    private var rotationRate: CMRotationRate = .init();
 
     @AppStorage("oscSettings") var oscSettingsStore: Data = .init()
 
@@ -47,6 +48,10 @@ class OSCSender: ObservableObject {
     
     func setAcceleration(a: CMAcceleration) {
         acceleration = a;
+    }
+    
+    func setRotationRate(r: CMRotationRate) {
+        rotationRate = r;
     }
 
     func setQuaternion(q: CMQuaternion) {
@@ -120,6 +125,13 @@ class OSCSender: ObservableObject {
                 value = acceleration.y
             case "accz":
                 value = acceleration.z
+            
+            case "rotx":
+                value = rotationRate.x
+            case "roty":
+                value = rotationRate.y
+            case "rotz":
+                value = rotationRate.z
 
             default:
                 if protocolValid { protocolValid = false }
