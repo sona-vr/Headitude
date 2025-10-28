@@ -19,6 +19,7 @@ class OSCSender: ObservableObject {
     private var client = OSCClient()
 
     private var quaternion: CMQuaternion = .init()
+    private var rawQuaternion: CMQuaternion = .init();
     private var acceleration: CMAcceleration = .init();
     private var rotationRate: CMRotationRate = .init();
 
@@ -52,6 +53,10 @@ class OSCSender: ObservableObject {
     
     func setRotationRate(r: CMRotationRate) {
         rotationRate = r;
+    }
+    
+    func setRawQuaternion(q: CMQuaternion) {
+        rawQuaternion = q;
     }
 
     func setQuaternion(q: CMQuaternion) {
@@ -109,6 +114,15 @@ class OSCSender: ObservableObject {
             case "rollRad+":
                 value = taitBryan.roll
                 if value < 0 { value += 2 * .pi }
+            
+            case "rqx":
+                value = rawQuaternion.x
+            case "rqy":
+                value = rawQuaternion.y
+            case "rqz":
+                value = rawQuaternion.z
+            case "rqw":
+                value = rawQuaternion.w
 
             case "qw":
                 value = quaternion.w

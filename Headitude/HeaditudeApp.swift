@@ -14,6 +14,7 @@ class AppState: ObservableObject {
     @Published var quaternion = CMQuaternion()
     @Published var acceleration = CMAcceleration()
     @Published var rotationRate = CMRotationRate()
+    @Published var rawQuaternion = CMQuaternion();
 
     @AppStorage("AppState.calibration") private var calibration: Data = .init()
 
@@ -33,6 +34,9 @@ class AppState: ObservableObject {
             
             rotationRate = self.headphoneMotionDetector.rotationRate;
             oscSender.setRotationRate(r: rotationRate)
+            
+            rawQuaternion = self.headphoneMotionDetector.rawQuaternion
+            oscSender.setRawQuaternion(q: quaternion)
         }
 
         headphoneMotionDetector.start()

@@ -13,6 +13,7 @@ import SwiftUI
 class HeadphoneMotionDetector: NSObject, ObservableObject, CMHeadphoneMotionManagerDelegate {
     @Published var data: CMDeviceMotion = .init()
     @Published var correctedQuaternion: CMQuaternion = .init()
+    @Published var rawQuaternion: CMQuaternion = .init()
     @Published var userAcceleration: CMAcceleration = .init()
     @Published var rotationRate: CMRotationRate = .init();
     @Published var connected: Bool = false
@@ -49,6 +50,7 @@ class HeadphoneMotionDetector: NSObject, ObservableObject, CMHeadphoneMotionMana
                     if let motionData = motionData {
                         self.data = motionData
                         self.calibration.update(data: motionData)
+                        self.rawQuaternion = motionData.attitude.quaternion;
                         self.userAcceleration = motionData.userAcceleration;
                         self.rotationRate = motionData.rotationRate;
                         self.correctedQuaternion = self.calibration.apply(to: motionData.attitude.quaternion)
